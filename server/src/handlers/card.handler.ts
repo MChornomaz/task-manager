@@ -7,8 +7,8 @@ import { SocketHandler } from './socket.handler';
 import { ErrorLogger, Logger } from '../logger/logger';
 import { FileLogger } from '../logger/log-file';
 import { Database } from '../data/database';
-import { ReorderService } from '../services/reorder.service';
 import { List } from '../data/models/list';
+import { ReorderServiceProxy } from '../logger/reorder.proxy.service';
 
 export class CardHandler extends SocketHandler {
   //PATTERN:Observer    
@@ -16,7 +16,7 @@ export class CardHandler extends SocketHandler {
   private fileLogger: FileLogger;
   private errorLogger: ErrorLogger;
 
-  constructor(io: Server, db: Database, reorderService: ReorderService) {
+  constructor(io: Server, db: Database, reorderService: ReorderServiceProxy) {
     super(io, db, reorderService);
     this.logger = new Logger();
     this.fileLogger = new FileLogger(path.resolve(__dirname, '..', 'logger', 'log.json'));
