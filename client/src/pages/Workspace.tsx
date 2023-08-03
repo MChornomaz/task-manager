@@ -64,6 +64,12 @@ export const Workspace = () => {
     });
   };
 
+  const createListHandler = (name: string): void => {
+    if (name.trim().length > 0) {
+      socket.emit(ListEvent.CREATE, name)
+    }
+  }
+
   return (
     <React.Fragment>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -84,7 +90,7 @@ export const Workspace = () => {
                 />
               ))}
               {provided.placeholder}
-              <ColumnCreator onCreateList={() => {}} />
+              <ColumnCreator onCreateList={createListHandler} />
             </Container>
           )}
         </Droppable>

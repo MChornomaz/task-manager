@@ -15,7 +15,7 @@ import { Container } from './styled/container';
 import { Header } from './styled/header';
 import { useContext } from 'react';
 import { SocketContext } from '../../context/socket';
-import { CardEvent } from '../../common/enums';
+import { CardEvent, ListEvent } from '../../common/enums';
 
 type Props = {
   listId: string;
@@ -26,11 +26,22 @@ type Props = {
 
 export const Column = ({ listId, listName, cards, index }: Props) => {
 
+
   const socket = useContext(SocketContext)
 
   const createCardHandler = (name: string) => {
     if (name.trim().length > 0) {
       socket.emit(CardEvent.CREATE, listId, name)
+    }
+  }
+
+  const deleteListHandler = () => {
+    socket.emit(ListEvent.DELETE, listId)
+  }
+
+  const renameColumnHandler = (value: string) => {
+    if (value.trim().length > 0) {
+      socket.emit(ListEvent.RENAME, { listId, name: value })
     }
   }
 
@@ -46,13 +57,13 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             <Title
               aria-label={listName}
               title={listName}
-              onChange={() => { }}
+              onChange={renameColumnHandler}
               fontSize="large"
               width={200}
               bold
             />
             <Splitter />
-            <DeleteButton color="#FFF0" onClick={() => { }} />
+            <DeleteButton color="#FFF0" onClick={deleteListHandler} />
           </Header>
           <CardsList
             listId={listId}
