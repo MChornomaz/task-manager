@@ -10,8 +10,7 @@ import { ReorderServiceProxy } from './logger/reorder.proxy.service';
 
 const PORT = 3001;
 
-const httpServer = createServer();
-(req, res) => {
+const httpServer = createServer((req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader(
@@ -27,7 +26,7 @@ const httpServer = createServer();
 
   res.writeHead(404);
   res.end('Not Found');
-};
+});
 
 const io = new Server(httpServer, {
   cors: {
