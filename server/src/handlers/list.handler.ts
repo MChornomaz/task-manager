@@ -7,7 +7,7 @@ import { ErrorLogger, Logger } from '../logger/logger';
 import { Server } from 'socket.io';
 import { Database } from '../data/database';
 import { FileLogger } from '../logger/log-file';
-import path from 'path'
+import path from 'path';
 import { ReorderServiceProxy } from '../logger/reorder.proxy.service';
 
 export class ListHandler extends SocketHandler {
@@ -19,18 +19,22 @@ export class ListHandler extends SocketHandler {
   constructor(io: Server, db: Database, reorderService: ReorderServiceProxy) {
     super(io, db, reorderService);
     this.logger = new Logger();
-    this.fileLogger = new FileLogger(path.resolve(__dirname,'..', 'logger', 'log.json'));
+    this.fileLogger = new FileLogger(
+      path.resolve(__dirname, '..', 'logger', 'log.json')
+    );
     this.errorLogger = new ErrorLogger();
     this.logger.subscribe(this.fileLogger.logToFile.bind(this.fileLogger));
-    this.logger.subscribeToErrors(this.errorLogger.logToConsole.bind(this.errorLogger));
+    this.logger.subscribeToErrors(
+      this.errorLogger.logToConsole.bind(this.errorLogger)
+    );
   }
 
   public handleConnection(socket: Socket): void {
     socket.on(ListEvent.CREATE, this.createList.bind(this));
     socket.on(ListEvent.GET, this.getLists.bind(this));
     socket.on(ListEvent.REORDER, this.reorderLists.bind(this));
-    socket.on(ListEvent.DELETE, this.deleteList.bind(this))
-    socket.on(ListEvent.RENAME, this.renameList.bind(this))
+    socket.on(ListEvent.DELETE, this.deleteList.bind(this));
+    socket.on(ListEvent.RENAME, this.renameList.bind(this));
   }
 
   private getLists(callback: (cards: List[]) => void): void {
@@ -42,7 +46,7 @@ export class ListHandler extends SocketHandler {
     const reorderedLists = this.reorderService.reorder(
       lists,
       sourceIndex,
-      destinationIndex,
+      destinationIndex
     );
     this.db.setData(reorderedLists);
     this.updateLists();
@@ -53,23 +57,23 @@ export class ListHandler extends SocketHandler {
     const newList = new List(name);
     this.db.setData(lists.concat(newList));
     this.updateLists();
-    this.logger.log(`List ${name} created`)
+    this.logger.log(`List ${name} created`);
   }
 
-  private deleteList(listId: string){
+  private deleteList(listId: string) {
     const lists = this.db.getData();
-    const filteredLists = lists.filter(list => list.id !== listId)
+    const filteredLists = lists.filter((list) => list.id !== listId);
     this.db.setData(filteredLists);
     this.updateLists();
-    this.logger.log(`List ${listId} deleted`)
+    this.logger.log(`List ${listId} deleted`);
   }
 
-  private renameList({ listId, name }: {listId: string, name: string}){
+  private renameList({ listId, name }: { listId: string; name: string }) {
     const lists = this.db.getData();
-    const selectedList = lists.find(list => list.id === listId);
-    if(selectedList){
+    const selectedList = lists.find((list) => list.id === listId);
+    if (selectedList) {
       this.logger.log(`List renamed: ${listId} to ${name}`);
-      selectedList.changeListName(name)
+      selectedList.changeListName(name);
       this.updateLists();
     }
     if (!selectedList) {

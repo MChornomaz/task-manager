@@ -23,7 +23,6 @@ const db = Database.Instance;
 //PATTERN: Proxy
 const reorderService = new ReorderServiceProxy(new ReorderService());
 
-
 if (process.env.NODE_ENV !== 'production') {
   db.setData(lists);
 }

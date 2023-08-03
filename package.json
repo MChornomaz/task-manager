@@ -2,7 +2,17 @@
   "name": "bsa-patterns-hw",
   "version": "0.0.0",
   "description": "Starter for Patterns Practises and Principles homework. Binary Studio Academy",
-  "scripts": {},
+  "scripts": {
+    "lint-client": "eslint \"client/**/*.ts*\" --fix",
+    "lint-server": "eslint \"server/**/*.ts*\" --fix",
+    "format-client": "prettier --write \"client/**/*.ts*\"",
+    "format-server": "prettier --write \"server/**/*.ts*\"",
+    "lint": "npm run lint-client && npm run lint-server",
+    "format": "npm run format-client && npm run format-server",
+    "start-server": "npm start -w server",
+    "start-client": "npm start -w client",
+    "start": "concurrently \"npm run start-server\" \"npm run start-client\""
+  },
   "author": "Vitalii Yarmus",
   "license": "MIT",
   "workspaces": [
@@ -14,7 +24,11 @@
     "npm": ">=8 <9"
   },
   "devDependencies": {
+    "concurrently": "^8.2.0",
     "eslint": "^8.46.0",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.1",
     "typescript": "4.9.5"
   }
 }

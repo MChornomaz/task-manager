@@ -26,7 +26,11 @@ export class FileLogger {
 
   private writeLogsToFile(logs: LogEntry[]): void {
     try {
-      fs.writeFileSync(this.logFilePath, JSON.stringify(logs, null, 2), 'utf-8');
+      fs.writeFileSync(
+        this.logFilePath,
+        JSON.stringify(logs, null, 2),
+        'utf-8'
+      );
     } catch (error) {
       console.error('Error writing logs to file:', error);
     }

@@ -26,7 +26,6 @@ type Props = {
 
 export const Column = ({ listId, listName, cards, index }: Props) => {
 
-
   const socket = useContext(SocketContext)
 
   const createCardHandler = (name: string) => {

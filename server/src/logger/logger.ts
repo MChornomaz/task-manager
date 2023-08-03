@@ -8,7 +8,7 @@ export class Logger {
   }
 
   public unsubscribe(subscriber: (message: string) => void) {
-    this.subscribers = this.subscribers.filter(sub => sub !== subscriber);
+    this.subscribers = this.subscribers.filter((sub) => sub !== subscriber);
   }
 
   public subscribeToErrors(subscriber: (message: string) => void) {
@@ -16,15 +16,17 @@ export class Logger {
   }
 
   public unsubscribeFromErrors(subscriber: (message: string) => void) {
-    this.errorSubscribers = this.errorSubscribers.filter(sub => sub !== subscriber);
+    this.errorSubscribers = this.errorSubscribers.filter(
+      (sub) => sub !== subscriber
+    );
   }
 
   public log(message: string) {
-    this.subscribers.forEach(sub => sub(message));
+    this.subscribers.forEach((sub) => sub(message));
   }
 
   public logError(message: string) {
-    this.errorSubscribers.forEach(sub => sub(message));
+    this.errorSubscribers.forEach((sub) => sub(message));
   }
 }
 
@@ -33,4 +35,3 @@ export class ErrorLogger {
     console.log(`Error log: ${message}`);
   }
 }
-

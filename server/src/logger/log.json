@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "timestamp": "03.08.2023, 17:24:19",
+    "message": "Card sbvdf created"
+  },
+  {
+    "timestamp": "03.08.2023, 17:24:22",
+    "message": "Card description changed: c6a44170-ec24-4eb9-807b-5b92d1a67217"
+  },
+  {
+    "timestamp": "03.08.2023, 17:24:22",
+    "message": "Card description changed: c6a44170-ec24-4eb9-807b-5b92d1a67217"
+  },
+  {
+    "timestamp": "03.08.2023, 17:24:22",
+    "message": "Card description changed: c6a44170-ec24-4eb9-807b-5b92d1a67217"
+  },
+  {
+    "timestamp": "03.08.2023, 17:24:26",
+    "message": "Card with ID c6a44170-ec24-4eb9-807b-5b92d1a67217 was copied"
+  },
+  {
+    "timestamp": "03.08.2023, 17:24:27",
+    "message": "Card with ID cfdca5fb-88c4-4766-8809-166d6de95141 was deleted"
+  },
+  {
+    "timestamp": "03.08.2023, 17:24:28",
+    "message": "Card with ID c6a44170-ec24-4eb9-807b-5b92d1a67217 was deleted"
+  },
+  {
+    "timestamp": "03.08.2023, 17:24:30",
+    "message": "Calling reorderCards method with parameters:'{\"lists\":[{\"cards\":[{\"name\":\"Implement renaming lists\",\"description\":\"Should be possible to change the name of the list\",\"createdAt\":\"2023-08-03T14:24:13.368Z\",\"id\":\"251a32f9-1fe5-4b94-82eb-924e44821611\"},{\"name\":\"Implement adding cards\",\"description\":\"Should be possible to create cards\",\"createdAt\":\"2023-08-03T14:24:13.368Z\",\"id\":\"852f3610-1f85-423b-a78a-5826d6125e25\"},{\"name\":\"Implement removing of cards\",\"description\":\"Should be possible to remove card when button clicked\",\"createdAt\":\"2023-08-03T14:24:13.368Z\",\"id\":\"1ede490e-9c28-4094-90dd-8e45d6306c47\"},{\"name\":\"Implement changing name of card\",\"description\":\"Should be possible to change the name of the card\",\"createdAt\":\"2023-08-03T14:24:13.368Z\",\"id\":\"9ec84f39-b872-439a-a82f-5a6063ea453b\"},{\"name\":\"Implement changing description of card\",\"description\":\"Should be possible to change description of card\",\"createdAt\":\"2023-08-03T14:24:13.368Z\",\"id\":\"bd013e0e-39ef-4f0f-8642-d95ee6180a9c\"},{\"name\":\"Implement card copying\",\"description\":\"Using pattern Prototype implement a possibility to copy card. Id should be new for new card. The name of the card should have \\\"copy\\\" suffix\",\"createdAt\":\"2023-08-03T14:24:13.368Z\",\"id\":\"b1492c3b-9e24-40c2-be54-f87912042fad\"},{\"name\":\"Implement logging on server side\",\"description\":\"Using pattern Observer implement logging with 3 levels: info, warn, error. There should be 2 loggers: first will write only errors into console, second will write all logs into file\",\"createdAt\":\"2023-08-03T14:24:13.368Z\",\"id\":\"ccea7279-cb1b-4ec3-9726-63afd8e0ee39\"},{\"name\":\"Implement logging of reorder action\",\"description\":\"Using pattern Proxy implement logging for the ReorderService (logging proxy). Should be logged each what card/list and when was moved\",\"createdAt\":\"2023-08-03T14:24:13.368Z\",\"id\":\"e186419c-f605-47e4-a1bc-41a83c4a5b21\"}],\"name\":\"To do\",\"id\":\"b4ec163f-2f98-4a55-ad37-3b34cc7022f8\"},{\"cards\":[{\"name\":\"Implement adding lists\",\"description\":\"Should be possible to create list\",\"createdAt\":\"2023-08-03T14:24:13.369Z\",\"id\":\"5cd9f0be-07ca-4509-85ee-dc8fba33ca84\"}],\"name\":\"In progress\",\"id\":\"26265235-0e68-4602-b0a3-419a30680f23\"}],\"sourceIndex\":0,\"destinationIndex\":1,\"sourceListId\":\"b4ec163f-2f98-4a55-ad37-3b34cc7022f8\",\"destinationListId\":\"b4ec163f-2f98-4a55-ad37-3b34cc7022f8\"}"
+  }
+]
