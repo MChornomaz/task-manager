@@ -6,6 +6,7 @@ type Props = {
 };
 
 export const ColumnCreator = ({ onCreateList }: Props) => {
+
   return (
     <Container>
       <ColumnCreatorInput onCreateList={onCreateList} />

@@ -19,6 +19,10 @@ class List {
 
     return this;
   }
+
+  changeListName(name: string){
+    this.name = name
+  }
 }
 
 export { List };
