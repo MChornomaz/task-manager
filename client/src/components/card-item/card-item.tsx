@@ -25,12 +25,24 @@ export const CardItem = ({ card, isDragging, provided, listId }: Props) => {
   const socket = useContext(SocketContext)
 
   const updateCardTitleHandler = (value: string) => {
-    socket.emit(CardEvent.RENAME, { listId, cardId: card.id, name: value })
+    if (value.trim().length > 0) {
+      socket.emit(CardEvent.RENAME, { listId, cardId: card.id, name: value })
+    }
   }
 
   const updateCardDescriptionHandler = (value: string) => {
     socket.emit(CardEvent.CHANGE_DESCRIPTION, { listId, cardId: card.id, description: value })
   }
+
+  const deleteCardHandler = () => {
+    socket.emit(CardEvent.DELETE, listId, card.id)
+  }
+
+  const copyCardHandler = () => {
+    socket.emit(CardEvent.CLONE, listId, card.id)
+  }
+
+
   return (
     <Container
       className="card-container"
@@ -51,9 +63,9 @@ export const CardItem = ({ card, isDragging, provided, listId }: Props) => {
         />
         <Text text={card.description} onChange={updateCardDescriptionHandler} />
         <Footer>
-          <DeleteButton onClick={() => { }} />
+          <DeleteButton onClick={deleteCardHandler} />
           <Splitter />
-          <CopyButton onClick={() => { }} />
+          <CopyButton onClick={copyCardHandler} />
         </Footer>
       </Content>
     </Container>

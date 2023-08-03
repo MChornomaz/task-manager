@@ -29,7 +29,9 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
   const socket = useContext(SocketContext)
 
   const createCardHandler = (name: string) => {
-    socket.emit(CardEvent.CREATE, listId, name)
+    if (name.trim().length > 0) {
+      socket.emit(CardEvent.CREATE, listId, name)
+    }
   }
 
   return (
