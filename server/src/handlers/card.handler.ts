@@ -8,6 +8,12 @@ export class CardHandler extends SocketHandler {
   public handleConnection(socket: Socket): void {
     socket.on(CardEvent.CREATE, this.createCard.bind(this));
     socket.on(CardEvent.REORDER, this.reorderCards.bind(this));
+    socket.on(CardEvent.RENAME, ({ listId, cardId, name, description })=> {
+      this.updateCard({ listId, cardId, name, description })
+    });
+    socket.on(CardEvent.CHANGE_DESCRIPTION, ({ listId, cardId, name, description })=> {
+      this.updateCard({ listId, cardId, name, description })
+    });
   }
 
   public createCard(listId: string, cardName: string): void {
@@ -20,6 +26,26 @@ export class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
+  }
+
+
+
+  private updateCard({ listId, cardId, name, description }: 
+    { listId: string, cardId: string, name: string, description: string }): void{
+    const lists = this.db.getData();
+    const selectedList = lists.find(list => list.id === listId);
+    if (selectedList) {
+      const selectedCard = selectedList.cards.find(card => card.id === cardId)
+      if (selectedCard) {
+        if(name !== undefined){
+          selectedCard.updateCardName(name)
+        }
+        if(description !== undefined){
+          selectedCard.updateCardDescription(description)
+        }
+        this.updateLists();
+      }
+    }
   }
 
   private reorderCards({

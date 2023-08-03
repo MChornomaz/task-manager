@@ -15,6 +15,14 @@ class Card {
     this.createdAt = new Date();
     this.id = randomUUID();
   }
+
+  public updateCardName(name: string) {
+    this.name = name
+  }
+
+  public updateCardDescription(description: string) {
+    this.description = description
+  }
 }
 
 export { Card };

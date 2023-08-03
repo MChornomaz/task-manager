@@ -1,5 +1,5 @@
 import type { DraggableProvided } from "@hello-pangea/dnd";
-import React from "react";
+import React, { ChangeEvent, useContext } from "react";
 
 import type { Card } from "../../common/types";
 import { CopyButton } from "../primitives/copy-button";
@@ -10,14 +10,27 @@ import { Title } from "../primitives/title";
 import { Container } from "./styled/container";
 import { Content } from "./styled/content";
 import { Footer } from "./styled/footer";
+import { SocketContext } from "../../context/socket";
+import { CardEvent } from "../../common/enums";
 
 type Props = {
   card: Card;
   isDragging: boolean;
   provided: DraggableProvided;
+  listId: string
 };
 
-export const CardItem = ({ card, isDragging, provided }: Props) => {
+export const CardItem = ({ card, isDragging, provided, listId }: Props) => {
+
+  const socket = useContext(SocketContext)
+
+  const updateCardTitleHandler = (value: string) => {
+    socket.emit(CardEvent.RENAME, { listId, cardId: card.id, name: value })
+  }
+
+  const updateCardDescriptionHandler = (value: string) => {
+    socket.emit(CardEvent.CHANGE_DESCRIPTION, { listId, cardId: card.id, description: value })
+  }
   return (
     <Container
       className="card-container"
@@ -31,16 +44,16 @@ export const CardItem = ({ card, isDragging, provided }: Props) => {
     >
       <Content>
         <Title
-          onChange={() => {}}
+          onChange={updateCardTitleHandler}
           title={card.name}
           fontSize="large"
           bold={true}
         />
-        <Text text={card.description} onChange={() => {}} />
+        <Text text={card.description} onChange={updateCardDescriptionHandler} />
         <Footer>
-          <DeleteButton onClick={() => {}} />
+          <DeleteButton onClick={() => { }} />
           <Splitter />
-          <CopyButton onClick={() => {}} />
+          <CopyButton onClick={() => { }} />
         </Footer>
       </Content>
     </Container>
