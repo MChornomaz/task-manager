@@ -23,6 +23,12 @@ class Card {
   public updateCardDescription(description: string) {
     this.description = description
   }
+
+  //PATTERN: Prototype
+
+  public clone(){
+    return new Card(this.name, this.description)
+  }
 }
 
 export { Card };
