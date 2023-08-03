@@ -1,10 +1,30 @@
-import type { Socket } from 'socket.io';
+import type { Server, Socket } from 'socket.io'; 
+import path from 'path';
 
 import { CardEvent } from '../common/enums';
 import { Card } from '../data/models/card';
 import { SocketHandler } from './socket.handler';
+import { ErrorLogger, Logger } from '../logger/logger';
+import { FileLogger } from '../logger/log-file';
+import { Database } from '../data/database';
+import { List } from '../data/models/list';
+import { ReorderServiceProxy } from '../logger/reorder.proxy.service';
 
 export class CardHandler extends SocketHandler {
+  //PATTERN:Observer    
+  private logger: Logger;
+  private fileLogger: FileLogger;
+  private errorLogger: ErrorLogger;
+
+  constructor(io: Server, db: Database, reorderService: ReorderServiceProxy) {
+    super(io, db, reorderService);
+    this.logger = new Logger();
+    this.fileLogger = new FileLogger(path.resolve(__dirname, '..', 'logger', 'log.json'));
+    this.errorLogger = new ErrorLogger();
+    this.logger.subscribe(this.fileLogger.logToFile.bind(this.fileLogger));
+    this.logger.subscribeToErrors(this.errorLogger.logToConsole.bind(this.errorLogger));
+  }
+
   public handleConnection(socket: Socket): void {
     socket.on(CardEvent.CREATE, this.createCard.bind(this));
     socket.on(CardEvent.REORDER, this.reorderCards.bind(this));
@@ -17,6 +37,7 @@ export class CardHandler extends SocketHandler {
   public createCard(listId: string, cardName: string): void {
     const newCard = new Card(cardName, '');
     this.updateList(listId, list => list.setCards(list.cards.concat(newCard)));
+    this.logger.log(`Card ${cardName} created`)
   }
 
   private updateCard({
@@ -35,19 +56,28 @@ export class CardHandler extends SocketHandler {
       if (selectedCard) {
         if (name !== undefined) {
           selectedCard.updateCardName(name);
+          this.logger.log(`Card renamed: ${cardId} to ${name}`);
         }
         if (description !== undefined) {
           selectedCard.updateCardDescription(description);
+          this.logger.log(`Card description changed: ${cardId}`);
         }
+
+      } else {
+        this.logger.logError(`Card with ID ${cardId} not found!`);
       }
-      return list;
     });
   }
 
-  private deleteCard(listId: string, cardId: string): void {
-    this.updateList(listId, list => {
-      list.cards = list.cards.filter((card: Card) => card.id !== cardId);
-      return list;
+  private deleteCard(listId: string, cardId: string) {
+    this.updateList(listId, (list: List) => {
+      const selectedCard = list.cards.find(card => card.id === cardId)
+      if(selectedCard === undefined){
+        this.logger.logError(`Card with ID ${cardId} not found!`);
+      } else {
+        list.cards = list.cards.filter((card: Card) => card.id !== cardId);
+        this.logger.log(`Card with ID ${cardId} was deleted`);
+      }
     });
   }
 
@@ -57,8 +87,10 @@ export class CardHandler extends SocketHandler {
       if (selectedCard) {
         const cardCopy = selectedCard.clone();
         list.setCards(list.cards.concat(cardCopy));
+        this.logger.log(`Card with ID ${cardId} was copied`);
+      } else{
+        this.logger.logError(`Card with ID ${cardId} not found!`);
       }
-      return list;
     });
   }
 
@@ -91,6 +123,8 @@ export class CardHandler extends SocketHandler {
       updateFn(selectedList);
       this.db.setData(lists);
       this.updateLists();
+    } else {
+      this.logger.logError(`List with ID ${listId} not found!`);
     }
   }
 }
